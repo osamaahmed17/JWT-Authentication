@@ -1,9 +1,7 @@
 const cors = require("cors")
 const connectDb = require("./config/db.js")
 const express = require("express")
-const routes = require("./route/routes")
 const dotenv = require("dotenv")
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authenticationModel = require("./model/authenticationModel.js");
 const PORT = process.env.PORT || 3000
