@@ -43,8 +43,6 @@ app.use((req, res, next) => {
 app.post("/register", async (req, res) => {
   try {
     const clientId = req.headers.clientid;
-
-
     // Create Token
     const token = jwt.sign(
       { clientId: clientId },
@@ -62,39 +60,7 @@ app.post("/register", async (req, res) => {
 });
 
 
-app.post("/login", async (req, res) => {
-  try {
-    // Get user clientId
-    const clientId = req.headers.clientid;
 
-    // Validate user input
-    if (!(clientId)) {
-      res.status(400).send("Client Id is required");
-    }
-    const foundClientId = await authenticationModel.findOne({ clientId });
-
-
-    if (foundClientId ) {
-      const token = jwt.sign(
-        { clientId: foundClientId },
-        "random",
-        {
-          expiresIn: "1h",
-        }
-      );
-      // save User Token
-      foundClientId.token = token;
-      // returns a Token
-      res.status(201).json({ "token": foundClientId.token });
-
-    }
-
-  } catch (err) {
-    res.status(400).send("Invalid Credentials");
-  }
-});
-
-connectDb()
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
