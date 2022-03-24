@@ -1,0 +1,19 @@
+{
+  "name": "jwt-authentication",
+  "version": "1.0.0",
+  "description": "An API which makes a session token through JWT",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osamaahmed17/JWT-Authentication.git"
+  },
+  "author": "Osama Ahmed Tahir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osamaahmed17/JWT-Authentication/issues"
+  },
+  "homepage": "https://github.com/osamaahmed17/JWT-Authentication#readme"
+}
