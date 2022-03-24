@@ -2,6 +2,8 @@ const cors = require("cors")
 const connectDb =require("./config/db.js")
 const express = require("express")
 const routes =require( "./route/routes")
+const dotenv =require( "dotenv")
+
 
 
 dotenv.config();
@@ -44,6 +46,6 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
 
-routes(app)
+//routes(app)
 
 module.exports = app
