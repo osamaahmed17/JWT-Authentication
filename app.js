@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 
 
-app.post("/register", async (req, res) => {
+app.post("/authentication", async (req, res) => {
   try {
     const clientId = req.headers.clientid;
     // Create Token
