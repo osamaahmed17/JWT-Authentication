@@ -44,32 +44,18 @@ app.post("/register", async (req, res) => {
   try {
     const clientId = req.headers.clientid;
 
-    // Validate user input
-    if (!(clientId)) {
-      res.status(400).send("Client Id is required");
-    }
-    const foundClientId = await authenticationModel.findOne({ clientId });
-    if (foundClientId) {
-      return res.status(409).send("Client Id already exists");
-
-    }
-    // Create Client Id in our database
-    const authenticationUser = await authenticationModel.create({
-      clientId: clientId,
-    });
 
     // Create Token
     const token = jwt.sign(
-      { clientId: foundClientId },
+      { clientId: clientId },
       "random",
       {
         expiresIn: "1h",
       }
     );
-    // save User Token
-    authenticationUser.token = token;
+
     // returns a Token
-    res.status(201).json({ "token": authenticationUser.token });
+    res.status(201).json({ "token": token });
   } catch (err) {
     console.log(err);
   }
