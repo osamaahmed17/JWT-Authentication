@@ -39,25 +39,32 @@ app.use((req, res, next) => {
 
 
 
-
 app.post("/authentication", async (req, res) => {
   try {
     const clientId = req.headers.clientid;
+
+
+
     // Create Token
     const token = jwt.sign(
-      { clientId: clientId },
+      {issuer:clientId},
       "random",
       {
-        expiresIn: "1h",
+        algorithm: "HS256",
+        expiresIn: "600s",
       }
     );
 
-    // returns a Token
     res.status(201).json({ "token": token });
   } catch (err) {
     console.log(err);
   }
 });
+
+
+
+
+
 
 
 
