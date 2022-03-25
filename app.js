@@ -44,13 +44,13 @@ app.post("/authentication", async (req, res) => {
     const clientId = req.headers.clientid;
 
 
+    //Need to add secret key string instead fo random
 
     // Create Token
     const token = jwt.sign(
       {issuer:clientId},
       "random",
       {
-        algorithm: "HS256",
         expiresIn: "600s",
       }
     );
