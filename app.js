@@ -80,7 +80,7 @@ app.post("/authentication", async (req, res) => {
     const b64Payload = toBase64(payload);
     const jwtB64Payload = replaceSpecialChars(b64Payload);
 
-    const secret = 'super_secret_society';
+    const secret = '1cb5284a-cd13-47f5-863a-0e04e1de44fe';
     const signature = createSignature(jwtB64Header, jwtB64Payload, secret);
     const jsonWebToken = jwtB64Header + '.' + jwtB64Payload + '.' + signature;
     res.status(201).json({ "token": jsonWebToken });
