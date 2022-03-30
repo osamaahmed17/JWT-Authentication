@@ -5,6 +5,7 @@ const dotenv = require("dotenv")
 const jwt = require("jsonwebtoken");
 const authenticationModel = require("./model/authenticationModel.js");
 const PORT = process.env.PORT || 3000
+const crypto = require('crypto');
 
 
 
@@ -38,29 +39,57 @@ app.use((req, res, next) => {
 });
 
 
+const toBase64 = obj => {
+  const str = JSON.stringify(obj);
+  return Buffer.from(str).toString('base64');
+};
+
+const replaceSpecialChars = b64string => {
+  return b64string.replace(/[=+/]/g, charToBeReplaced => {
+    switch (charToBeReplaced) {
+      case '=':
+        return '';
+      case '+':
+        return '-';
+      case '/':
+        return '_';
+    }
+  });
+};
+const createSignature = (jwtB64Header, jwtB64Payload, secret) => {
+  let siginature = crypto.createHmac('sha256', secret);
+  siginature.update(jwtB64Header + '.' + jwtB64Payload);
+  siginature = siginature.digest('base64');
+  siginature = replaceSpecialChars(siginature);
+  return siginature
+}
+
 
 app.post("/authentication", async (req, res) => {
   try {
-    const clientId = req.headers.clientid;
+    const header = {
+      alg: 'HS256',
+      typ: 'JWT',
+    };
+    const b64Header = toBase64(header);
+    const jwtB64Header = replaceSpecialChars(b64Header);
+    const payload = {
+      issuer: "ckysnvge56shi0942mh3hmd5k",
+      exp: 600000
+    };
+    const b64Payload = toBase64(payload);
+    const jwtB64Payload = replaceSpecialChars(b64Payload);
+
+    const secret = 'super_secret_society';
+    const signature = createSignature(jwtB64Header, jwtB64Payload, secret);
+    const jsonWebToken = jwtB64Header + '.' + jwtB64Payload + '.' + signature;
+    res.status(201).json({ "token": jsonWebToken });
 
 
-    //Need to add secret key string instead fo random
-
-    // Create Token
-    const token = jwt.sign(
-      {issuer:clientId},
-      "random",
-      {
-        expiresIn: "600s",
-      }
-    );
-
-    res.status(201).json({ "token": token });
   } catch (err) {
     console.log(err);
   }
 });
-
 
 
 
